@@ -1,0 +1,12 @@
+<view class="detail-page">
+  <view wx:if="{{loading}}" class="state">正在加载订单...</view>
+  <view wx:elif="{{error}}" class="error">{{error}}</view>
+  <block wx:else>
+    <view class="status-card"><text class="status-label">订单状态</text><text class="status">{{order.statusText}}</text><text class="order-no">订单号：{{order.orderNo}}</text></view>
+    <view class="section"><view class="section-title">商品明细</view><view wx:for="{{order.items}}" wx:key="id" class="item"><view class="item-mark">{{item.productName}}</view><view class="item-info"><text>{{item.productName}}</text><text class="muted">¥{{item.price}} × {{item.quantity}}</text></view><text class="price">¥{{item.subtotalText}}</text></view></view>
+    <view class="section address"><view class="section-title">收货信息</view><text>{{order.receiverName}} · {{order.phone}}</text><text>{{order.detailAddress}}</text></view>
+    <view class="section summary"><text>下单时间</text><text>{{order.timeText}}</text><text>实付金额</text><text class="total">¥{{totalText}}</text></view>
+    <button wx:if="{{order.orderStatus === 'SHIPPED'}}" class="confirm-button" bindtap="confirmReceipt">确认收货</button>
+    <button bindtap="backToOrders">返回我的订单</button>
+  </block>
+</view>

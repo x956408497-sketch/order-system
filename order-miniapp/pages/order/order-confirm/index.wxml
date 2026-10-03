@@ -1,0 +1,34 @@
+<view class="checkout-page">
+  <view wx:if="{{loading}}" class="state">正在加载订单信息...</view>
+  <view wx:elif="{{error}}" class="error">{{error}}</view>
+  <block wx:else>
+    <view class="section">
+      <view class="section-title">
+        <text>收货地址</text>
+        <button class="link-button" bindtap="toggleAddressForm">{{showAddressForm ? '取消' : '新增地址'}}</button>
+      </view>
+      <picker wx:if="{{addresses.length}}" mode="selector" range="{{addresses}}" range-key="detailAddress" bindchange="selectAddress">
+        <view class="address-picker">{{selectedAddress.receiverName}} · {{selectedAddress.phone}} · {{selectedAddress.detailAddress}} <text>⌄</text></view>
+      </picker>
+      <view wx:else class="empty-address">还没有收货地址，请新增地址</view>
+      <view wx:if="{{showAddressForm}}" class="address-form">
+        <input data-field="receiverName" bindinput="inputAddress" placeholder="收货人姓名" />
+        <input data-field="phone" bindinput="inputAddress" placeholder="联系电话" type="number" />
+        <input data-field="detailAddress" bindinput="inputAddress" placeholder="详细地址" />
+        <button class="save-button" bindtap="saveAddress">保存地址</button>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-title"><text>订单商品</text><text class="muted">{{items.length}} 件</text></view>
+      <view wx:for="{{items}}" wx:key="id" class="order-item">
+        <view class="item-icon">{{item.productName}}</view>
+        <view class="item-info"><text>{{item.productName}}</text><text class="muted">x{{item.quantity}}</text></view>
+        <text class="item-price">¥{{item.subtotal}}</text>
+      </view>
+    </view>
+
+    <view class="total-section"><text>应付合计</text><text class="total">¥{{total}}</text></view>
+    <button class="submit-button" loading="{{submitting}}" disabled="{{submitting}}" bindtap="submitOrder">提交订单并模拟支付</button>
+  </block>
+</view>

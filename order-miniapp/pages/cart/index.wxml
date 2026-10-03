@@ -1,0 +1,30 @@
+<view class="cart-page">
+  <view wx:if="{{loading}}" class="state">正在加载购物车...</view>
+  <view wx:elif="{{error}}" class="error">{{error}}</view>
+  <view wx:elif="{{!items.length}}" class="state">
+    <view>购物车为空</view>
+    <button class="primary-button" bindtap="goHome">去选商品</button>
+  </view>
+  <block wx:else>
+    <view wx:for="{{items}}" wx:key="id" class="cart-item">
+      <view class="item-icon">{{item.firstChar}}</view>
+      <view class="item-main">
+        <view class="item-name">{{item.productName}}</view>
+        <view class="item-price">¥{{item.priceText}}</view>
+        <view class="item-bottom">
+          <view class="stepper">
+            <button data-item="{{item}}" data-step="-1" bindtap="changeQuantity">−</button>
+            <text>{{item.quantity}}</text>
+            <button data-item="{{item}}" data-step="1" bindtap="changeQuantity">+</button>
+          </view>
+          <text class="subtotal">¥{{item.subtotal}}</text>
+          <button class="delete-button" data-item="{{item}}" bindtap="deleteItem">删除</button>
+        </view>
+      </view>
+    </view>
+    <view class="summary">
+      <view><text>合计</text><text class="total">¥{{total}}</text></view>
+      <button class="checkout-button" bindtap="goCheckout">去结算</button>
+    </view>
+  </block>
+</view>
